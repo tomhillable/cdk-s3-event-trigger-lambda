@@ -18,3 +18,14 @@ test('Lambda handles sample event', async () => {
   await handler(sampleEvent, {});
   expect(consoleSpy).toHaveBeenCalledWith('HappyFace.jpg');
 })
+
+test('Lambda function created', () => {
+  const app = new cdk.App();
+    // WHEN
+    const stack = new CdkS3EventTriggerLambda.CdkS3EventTriggerLambdaStack(app, 'MyTestStack');
+    // THEN
+    const template = Template.fromStack(stack);
+    template.hasResourceProperties('AWS::Lambda::Function', {
+      Handler: 'example-function.handler'
+    });
+}) 
